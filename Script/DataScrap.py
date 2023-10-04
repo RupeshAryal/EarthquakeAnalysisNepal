@@ -1,4 +1,5 @@
 from selenium import webdriver
+import datetime as dt
 import time
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
@@ -6,7 +7,7 @@ from bs4 import BeautifulSoup
 import csv
 
 
-csv_file =  open('earthquake.csv', 'w', newline='', encoding='utf-8')
+csv_file =  open('../Datasets/earthquake_raw.csv', 'w', newline='', encoding='utf-8')
 csv_writer = csv.writer(csv_file)
 
 
@@ -15,7 +16,7 @@ url = 'https://seismonepal.gov.np/earthquakes'
 
 def get_page_source(url):
     start_date = '2015-04-01'
-    end_date = '2023-09-01'
+    end_date = dt.date.today().strftime("%Y-%m-%d")
     driver = webdriver.Chrome()
 
     driver.get(url)
@@ -42,9 +43,9 @@ for row in table_rows:
     cell_data = []
     for cell in row_data[0:-1]:
         cell_data.append(cell.text)
-    print(cell_data)
+
     csv_writer.writerow(cell_data)
-    print(cell_data)
+
 
 
 
